@@ -1,12 +1,17 @@
 # Backup local customization files before deleting the local .pi directory
 $tempTheme = Join-Path $env:TEMP "mobi-theme-bkp.json"
 $tempHeader = Join-Path $env:TEMP "mobi-header-bkp.ts"
+$tempAppend = Join-Path $env:TEMP "mobi-append-bkp.md"
 $hasBackup = $false
 
 if ((Test-Path ".pi\themes\mobi-theme.json") -and (Test-Path ".pi\extensions\mobi-header.ts")) {
     Copy-Item -Path ".pi\themes\mobi-theme.json" -Destination $tempTheme -Force
     Copy-Item -Path ".pi\extensions\mobi-header.ts" -Destination $tempHeader -Force
     $hasBackup = $true
+}
+
+if (Test-Path ".pi\APPEND_SYSTEM.md") {
+    Copy-Item -Path ".pi\APPEND_SYSTEM.md" -Destination $tempAppend -Force
 }
 
 # Conservar la carpeta local .pi
@@ -89,6 +94,12 @@ if ($LASTEXITCODE -eq 0) {
     } else {
         Write-Host "Warning: Custom theme files were not found for backup." -ForegroundColor Yellow
         Write-Host "If you already have the theme installed globally, you can ignore this." -ForegroundColor Yellow
+    }
+    
+    if (Test-Path $tempAppend) {
+        Copy-Item -Path $tempAppend -Destination (Join-Path $piDir "APPEND_SYSTEM.md") -Force
+        Remove-Item -Path $tempAppend -Force
+        Write-Host "APPEND_SYSTEM.md copied to global configuration."
     }
     
     Write-Host "=== Installation completed successfully! ===" -ForegroundColor Green

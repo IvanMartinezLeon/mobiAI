@@ -8,12 +8,17 @@ echo "=== Installing @earendil-works/pi-coding-agent for macOS ==="
 # Backup local customization files before deleting the local .pi directory
 TEMP_THEME="/tmp/mobi-theme-bkp.json"
 TEMP_HEADER="/tmp/mobi-header-bkp.ts"
+TEMP_APPEND="/tmp/mobi-append-bkp.md"
 HAS_BACKUP=false
 
 if [ -f ".pi/themes/mobi-theme.json" ] && [ -f ".pi/extensions/mobi-header.ts" ]; then
     cp ".pi/themes/mobi-theme.json" "$TEMP_THEME"
     cp ".pi/extensions/mobi-header.ts" "$TEMP_HEADER"
     HAS_BACKUP=true
+fi
+
+if [ -f ".pi/APPEND_SYSTEM.md" ]; then
+    cp ".pi/APPEND_SYSTEM.md" "$TEMP_APPEND"
 fi
 
 # Conservar la carpeta local .pi
@@ -90,6 +95,12 @@ if npm install -g --ignore-scripts @earendil-works/pi-coding-agent; then
     else
         echo "Warning: Custom theme files were not found for backup."
         echo "If you already have the theme installed globally, you can ignore this."
+    fi
+    
+    if [ -f "$TEMP_APPEND" ]; then
+        cp "$TEMP_APPEND" "$REAL_HOME/.pi/agent/APPEND_SYSTEM.md"
+        rm -f "$TEMP_APPEND"
+        echo "APPEND_SYSTEM.md copied to global configuration."
     fi
     
     echo "=== Installation completed successfully! ==="
