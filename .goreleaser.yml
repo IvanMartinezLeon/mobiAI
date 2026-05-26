@@ -1,0 +1,58 @@
+version: 2
+
+project_name: mobi
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: .
+    dir: cli
+    binary: mobi
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - none*
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  use: github
+  sort: asc
+  groups:
+    - title: "🚀 Features"
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: "🐛 Bug fixes"
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: "🧰 Maintenance"
+      regexp: "^.*chore[(\\w)]*:+.*$"
+      order: 2
+    - title: "📖 Documentation"
+      regexp: "^.*docs[(\\w)]*:+.*$"
+      order: 3
+  filters:
+    exclude:
+      - "^docs:"
+      - "^chore:"

@@ -1,92 +1,120 @@
-# Instalación de @earendil-works/pi-coding-agent
+# MOBI AI — Personalización para Pi Coding Agent
 
-Este repositorio contiene scripts automatizados para instalar el paquete global `@earendil-works/pi-coding-agent` de forma segura utilizando la opción `--ignore-scripts`.
+![Go](https://img.shields.io/badge/CLI-Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![GitHub Release](https://img.shields.io/github/v/release/IvanMartinezLeon/mobiAI)
 
-La instalación manual equivale a ejecutar:
+Ecosistema de personalización para el [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent) con tema oscuro, banner ASCII, detección automática de framework, métricas de sesión y más.
+
+## 🚀 Instalación Sin Clonar (Recomendado)
+
+No necesitas clonar este repositorio. Usa cualquiera de estos métodos para instalar inmediatamente:
+
+### Opción 1: Binario Standalone (macOS/Linux)
 ```bash
-npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+curl -fsSL https://raw.githubusercontent.com/IvanMartinezLeon/mobiAI/main/cli/install.sh | sh
 ```
 
-## Requisitos Previos
-
-Asegúrate de tener instalados **Node.js** y **npm** en tu sistema antes de ejecutar cualquiera de los scripts.
-
----
-
-## Instrucciones de Instalación por Plataforma
-
-### 🍎 macOS
-1. Abre tu terminal.
-2. Dirígete a este directorio y ejecuta:
-   ```bash
-   ./install_mac.sh
-   ```
-*Nota: Si la instalación global requiere privilegios de administrador, el script te solicitará ejecutarlo con `sudo`:*
+### Opción 2: Con Go Instalado
 ```bash
-sudo ./install_mac.sh
+go install github.com/IvanMartinezLeon/mobiAI/cli@latest
 ```
 
----
-
-### 🐧 Linux
-1. Abre tu terminal.
-2. Dirígete a este directorio y ejecuta:
-   ```bash
-   ./install_linux.sh
-   ```
-*Nota: Si tu instalación de Node.js es a nivel de sistema (system-wide), es probable que necesites ejecutar el script como root:*
+### Opción 3: Desarrollo local
 ```bash
-sudo ./install_linux.sh
+git clone https://github.com/IvanMartinezLeon/mobiAI.git
+cd mobiAI/cli
+go build -o mobi .
+./mobi install
 ```
 
----
+## 🖥️ CLI `mobi`
 
-### 🪟 Windows
-1. Abre **PowerShell** (se recomienda ejecutarlo como Administrador si tu instalación global de npm lo requiere).
-2. Dirígete a este directorio y ejecuta:
-   ```powershell
-   .\install_windows.ps1
-   ```
-*Nota: Si PowerShell bloquea la ejecución de scripts por las políticas de seguridad por defecto, puedes ejecutarlo con la política omitida para este proceso:*
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process; .\install_windows.ps1
+Una sola herramienta para instalar, diagnosticar y mantener la personalización.
+
+### Comandos Disponibles
+
+| Comando | Descripción |
+|---------|-------------|
+| `mobi install` | Instala Pi globalmente + copia toda la personalización |
+| `mobi install --no-npm` | Solo copia archivos (si Pi ya está instalado) |
+| `mobi doctor` | Diagnostica Node.js, Pi, theme, extensión, configuración |
+| `mobi doctor --json` | Salida JSON para scripting |
+| `mobi status` | Muestra versión de Pi, theme, extensión, settings |
+| `mobi update` | Sincroniza `.pi/` local → `~/.pi/agent/` |
+
+### Ejemplo de Uso
+
+```bash
+# Instalación completa (recomendado para primeros usuarios)
+mobi install
+
+# Verificar que todo está correcto
+mobi doctor
+
+# Ver estado actual
+mobi status
 ```
 
+## 📁 Estructura del Proyecto
+
+```
+mobiAI/
+├── cli/                  ← CLI en Go (mobi)
+├── packages/
+│   └── mobi-cli/         ← Paquete npm (wrapper del binario Go)
+├── .pi/                  ← Fuente de personalización
+│   ├── themes/
+│   │   └── mobi-theme.json
+│   ├── extensions/
+│   │   └── mobi-header.ts
+│   ├── settings.json
+│   └── APPEND_SYSTEM.md
+└── legacy/               ← Scripts legacy (fallback)
+    ├── install_mac.sh
+    ├── install_linux.sh
+    └── install_windows.ps1
+```
+
+## 🎨 Componentes de Personalización
+
+### `mobi-theme.json`
+Tema oscuro con paleta de 51 tokens, acentos en cian, bordes integrados y jerarquía visual limpia.
+
+### `mobi-header.ts`
+Extensión TypeScript que reemplaza el header de Pi con el logo ASCII de MOBI AI y añade un footer con:
+- Framework del proyecto (detección automática)
+- Rama activa de git
+- Modelo en uso
+- % de contexto utilizado
+- Tokens de subida/bajada acumulados
+
+### `APPEND_SYSTEM.md`
+Instrucciones inyectadas en el prompt del agente para detectar el framework al iniciar la conversación.
+
+### `settings.json`
+`quietStartup: true` oculta las secciones de inicio; `theme: mobi-theme` como tema por defecto.
+
+## 💻 Desarrollo
+
+```bash
+cd cli
+go build -o mobi .    # Compilar la CLI
+go run . doctor       # Probar sin compilar
+```
+
+### Lanzamiento de Nuevas Versiones
+
+Etiquetar con `cli-v*` para lanzar release automático via GitHub Actions:
+
+```bash
+git tag cli-v0.1.0
+git push origin cli-v0.1.0
+```
+
+## 🔧 Legacy
+
+Los scripts de instalación originales (`install_mac.sh`, `install_linux.sh`, `install_windows.ps1`) están en `legacy/` como fallback. La CLI `mobi` es el método recomendado para todos los usuarios.
+
 ---
-
-## Personalización de Tema e Interfaz (MOBI AI)
-
-Este proyecto incluye una configuración local en el directorio `.pi/` para dotar a la terminal de Pi con un diseño personalizado y un banner ASCII de **MOBI AI** en el inicio de la sesión.
-
-### Componentes de Personalización
-
-1. **`.pi/themes/mobi-theme.json`**:
-   * Define una paleta de colores oscura, moderna y premium (basada en el esquema oficial de 51 tokens del Pi Coding Agent).
-   * Utiliza acentos en color cian, textos limpios y bordes oscuros integrados.
-
-2. **`.pi/extensions/mobi-header.ts`**:
-   * Una extensión de TypeScript auto-ejecutable que reemplaza el encabezado inicial de Pi con un logo estilizado en ASCII de **MOBI AI** empleando el color de acento del tema.
-   * Añade un pie de página personalizado que detecta automáticamente el **framework** del proyecto (Flutter, Node.js, Rust, Go, Python, etc.), muestra la **rama activa de git**, el **modelo** en uso, el **porcentaje de contexto** utilizado y los **tokens de subida/bajada** acumulados en la sesión.
-   * Registra un comando opcional `/builtin-header` por si deseas volver al banner nativo.
-
-3. **`.pi/settings.json`**:
-   * Configura localmente el agente para cargar por defecto el tema `mobi-theme` y activa `quietStartup: true` para ocultar las secciones de inicio ([Context], [Skills], [Prompts], [Extensions], [Themes]).
-
-4. **`.pi/APPEND_SYSTEM.md`**:
-   * Instrucciones de sistema que se inyectan en el prompt de Pi para detectar automáticamente el framework del proyecto al iniciar la conversación.
-
-### Cómo se aplica
-
-Los scripts de instalación automatizan este proceso de la siguiente manera:
-1. **Respaldan** los archivos de personalización (`mobi-theme.json`, `mobi-header.ts` y `APPEND_SYSTEM.md`) en una ubicación temporal.
-2. **Instalan** el Pi Coding Agent globalmente.
-3. **Restauran** los archivos de personalización en la configuración global de Pi (`~/.pi/agent/` o equivalentemente en Windows).
-4. **Copian** `.pi/settings.json` al global (`~/.pi/agent/settings.json`) haciendo merge con la configuración existente.
-
-Si no utilizas los instaladores automatizados, puedes realizar el proceso de forma manual copiando los contenidos a tu carpeta de configuración global de Pi:
-* **Tema global**: Copia `mobi-theme.json` a `~/.pi/agent/themes/`
-* **Extensión global**: Copia `mobi-header.ts` a `~/.pi/agent/extensions/`
-* **APPEND_SYSTEM.md global**: Copia `APPEND_SYSTEM.md` a `~/.pi/agent/APPEND_SYSTEM.md`
-* **Ajustes globales**: Copia `settings.json` a `~/.pi/agent/settings.json`
-
-
+<sup>MOBI AI está inspirado y creado para mejorar la experiencia con [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent).</sup>

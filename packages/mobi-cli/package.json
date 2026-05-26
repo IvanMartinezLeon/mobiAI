@@ -1,0 +1,20 @@
+{
+  "name": "mobi-cli",
+  "version": "0.1.0",
+  "description": "MOBI AI CLI — Instalación y gestión del Pi Coding Agent",
+  "bin": {
+    "mobi": "./bin/mobi.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanMartinezLeon/mobiAI.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "install.js"
+  ]
+}
