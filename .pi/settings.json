@@ -3,5 +3,9 @@
   "theme": "mobi-theme",
   "themeSettings": {
     "showOnStartup": false
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "context-mode statusline"
   }
 }
