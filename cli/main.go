@@ -1,6 +1,6 @@
 package main
 
-import "github.com/anomalyco/mobiAI/cli/cmd"
+import "github.com/IvanMartinezLeon/mobiAI/cli/cmd"
 
 func main() {
 	cmd.Execute()

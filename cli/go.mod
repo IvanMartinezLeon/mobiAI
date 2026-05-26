@@ -1,4 +1,4 @@
-module github.com/anomalyco/mobiAI/cli
+module github.com/IvanMartinezLeon/mobiAI/cli
 
 go 1.26.1
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/anomalyco/mobiAI/cli/internal/check"
+	"github.com/IvanMartinezLeon/mobiAI/cli/internal/check"
 	"github.com/spf13/cobra"
 )
 

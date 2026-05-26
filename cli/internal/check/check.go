@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/anomalyco/mobiAI/cli/internal/pi"
+	"github.com/IvanMartinezLeon/mobiAI/cli/internal/pi"
 )
 
 type Result struct {

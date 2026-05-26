@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/anomalyco/mobiAI/cli/internal/check"
-	"github.com/anomalyco/mobiAI/cli/internal/config"
-	"github.com/anomalyco/mobiAI/cli/internal/pi"
+	"github.com/IvanMartinezLeon/mobiAI/cli/internal/check"
+	"github.com/IvanMartinezLeon/mobiAI/cli/internal/config"
+	"github.com/IvanMartinezLeon/mobiAI/cli/internal/pi"
 	"github.com/spf13/cobra"
 )
 

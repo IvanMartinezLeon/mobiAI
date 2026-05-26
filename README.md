@@ -2,32 +2,37 @@
 
 ![Go](https://img.shields.io/badge/CLI-Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![GitHub Release](https://img.shields.io/github/v/release/IvanMartinezLeon/mobiAI)
 
 Ecosistema de personalización para el [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent) con tema oscuro, banner ASCII, detección automática de framework, métricas de sesión y más.
 
-## CLI `mobi`
+## 🚀 Instalación Sin Clonar (Recomendado)
+
+No necesitas clonar este repositorio. Usa cualquiera de estos métodos para instalar inmediatamente:
+
+### Opción 1: Binario Standalone (macOS/Linux)
+```bash
+curl -fsSL https://raw.githubusercontent.com/IvanMartinezLeon/mobiAI/main/cli/install.sh | sh
+```
+
+### Opción 2: Con Go Instalado
+```bash
+go install github.com/IvanMartinezLeon/mobiAI/cli@latest
+```
+
+### Opción 3: Desarrollo local
+```bash
+git clone https://github.com/IvanMartinezLeon/mobiAI.git
+cd mobiAI/cli
+go build -o mobi .
+./mobi install
+```
+
+## 🖥️ CLI `mobi`
 
 Una sola herramienta para instalar, diagnosticar y mantener la personalización.
 
-### Instalación rápida
-
-```bash
-# Con npx (sin instalar nada)
-npx mobi-cli install
-npx mobi-cli doctor
-
-# O instalarlo globalmente
-npm install -g mobi-cli
-mobi install
-
-# macOS / Linux (binario standalone)
-curl -fsSL https://raw.githubusercontent.com/IvanMartinezLeon/mobiAI/main/cli/install.sh | sh
-
-# O con Go instalado
-go install github.com/IvanMartinezLeon/mobiAI/cli/cmd/mobi@latest
-```
-
-### Comandos
+### Comandos Disponibles
 
 | Comando | Descripción |
 |---------|-------------|
@@ -38,23 +43,26 @@ go install github.com/IvanMartinezLeon/mobiAI/cli/cmd/mobi@latest
 | `mobi status` | Muestra versión de Pi, theme, extensión, settings |
 | `mobi update` | Sincroniza `.pi/` local → `~/.pi/agent/` |
 
-### Ejemplo
+### Ejemplo de Uso
 
 ```bash
-mobi install        # Instalación completa
-mobi doctor         # Verificar que todo está correcto
-mobi status         # Ver estado actual
+# Instalación completa (recomendado para primeros usuarios)
+mobi install
+
+# Verificar que todo está correcto
+mobi doctor
+
+# Ver estado actual
+mobi status
 ```
 
----
-
-## Personalización
+## 📁 Estructura del Proyecto
 
 ```
 mobiAI/
 ├── cli/                  ← CLI en Go (mobi)
 ├── packages/
-│   └── mobi-cli/         ← Paquete npm (npx mobi-cli)
+│   └── mobi-cli/         ← Paquete npm (wrapper del binario Go)
 ├── .pi/                  ← Fuente de personalización
 │   ├── themes/
 │   │   └── mobi-theme.json
@@ -68,24 +76,26 @@ mobiAI/
     └── install_windows.ps1
 ```
 
-### Componentes
+## 🎨 Componentes de Personalización
 
-**`mobi-theme.json`** — Tema oscuro con paleta de 51 tokens, acentos en cian, bordes integrados y jerarquía visual limpia.
+### `mobi-theme.json`
+Tema oscuro con paleta de 51 tokens, acentos en cian, bordes integrados y jerarquía visual limpia.
 
-**`mobi-header.ts`** — Extensión TypeScript que reemplaza el header de Pi con el logo ASCII de MOBI AI y añade un footer con:
+### `mobi-header.ts`
+Extensión TypeScript que reemplaza el header de Pi con el logo ASCII de MOBI AI y añade un footer con:
 - Framework del proyecto (detección automática)
 - Rama activa de git
 - Modelo en uso
 - % de contexto utilizado
 - Tokens de subida/bajada acumulados
 
-**`APPEND_SYSTEM.md`** — Instrucciones inyectadas en el prompt del agente para detectar el framework al iniciar la conversación.
+### `APPEND_SYSTEM.md`
+Instrucciones inyectadas en el prompt del agente para detectar el framework al iniciar la conversación.
 
-**`settings.json`** — `quietStartup: true` oculta las secciones de inicio; `theme: mobi-theme` como tema por defecto.
+### `settings.json`
+`quietStartup: true` oculta las secciones de inicio; `theme: mobi-theme` como tema por defecto.
 
----
-
-## Desarrollo
+## 💻 Desarrollo
 
 ```bash
 cd cli
@@ -93,7 +103,7 @@ go build -o mobi .    # Compilar la CLI
 go run . doctor       # Probar sin compilar
 ```
 
-### Release
+### Lanzamiento de Nuevas Versiones
 
 Etiquetar con `cli-v*` para lanzar release automático via GitHub Actions:
 
@@ -102,8 +112,9 @@ git tag cli-v0.1.0
 git push origin cli-v0.1.0
 ```
 
+## 🔧 Legacy
+
+Los scripts de instalación originales (`install_mac.sh`, `install_linux.sh`, `install_windows.ps1`) están en `legacy/` como fallback. La CLI `mobi` es el método recomendado para todos los usuarios.
+
 ---
-
-## Legacy
-
-Los scripts de instalación originales (`install_mac.sh`, `install_linux.sh`, `install_windows.ps1`) están en `legacy/` como fallback. La CLI `mobi` es el método recomendado.
+<sup>MOBI AI está inspirado y creado para mejorar la experiencia con [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent).</sup>
