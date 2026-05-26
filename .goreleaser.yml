@@ -4,7 +4,7 @@ project_name: mobi
 
 before:
   hooks:
-    - go mod tidy
+    - cd cli && go mod tidy
 
 builds:
   - main: .
@@ -23,10 +23,10 @@ builds:
       - -s -w
 
 archives:
-  - format: tar.gz
+  - formats: [tar.gz]
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
     files:
       - none*
 
@@ -34,7 +34,7 @@ checksum:
   name_template: "checksums.txt"
 
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  version_template: "{{ .Tag }}-next"
 
 changelog:
   use: github
