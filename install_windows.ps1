@@ -44,6 +44,10 @@ npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "=== Agent installed successfully! ===" -ForegroundColor Green
+    Write-Host "Installing additional Pi packages..." -ForegroundColor Cyan
+    pi install npm:pi-subagents
+    pi install npm:pi-mcp-adapter
+    pi install npm:context-mode
     Write-Host "Installing MOBI AI theme and custom header globally..." -ForegroundColor Cyan
     
     $homeDir = [System.Environment]::GetFolderPath('UserProfile')

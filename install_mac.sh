@@ -45,6 +45,10 @@ echo "Running: npm install -g --ignore-scripts @earendil-works/pi-coding-agent"
 # Run installation
 if npm install -g --ignore-scripts @earendil-works/pi-coding-agent; then
     echo "=== Agent installed successfully! ==="
+    echo "Installing additional Pi packages..."
+    pi install npm:pi-subagents
+    pi install npm:pi-mcp-adapter
+    pi install npm:context-mode
     echo "Installing MOBI AI theme and custom header globally..."
     
     # Determine the real user's home directory (even if running with sudo)
