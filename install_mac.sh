@@ -72,21 +72,28 @@ if npm install -g --ignore-scripts @earendil-works/pi-coding-agent; then
         rm -f "$TEMP_THEME" "$TEMP_HEADER"
         echo "Theme and extension files copied to global configuration."
         
-        # Update settings.json using Node.js
+        # Copy local .pi/settings.json to global config (merge with existing)
         node -e '
         const fs = require("fs");
-        const settingsPath = process.argv[1];
+        const path = require("path");
+        const globalPath = process.argv[1];
+        const localPath = process.argv[2];
         let settings = {};
         try {
-          if (fs.existsSync(settingsPath)) {
-            settings = JSON.parse(fs.readFileSync(settingsPath, "utf8"));
+          if (fs.existsSync(globalPath)) {
+            settings = JSON.parse(fs.readFileSync(globalPath, "utf8"));
           }
         } catch (e) {}
-        settings.theme = "mobi-theme";
-        fs.mkdirSync(require("path").dirname(settingsPath), { recursive: true });
-        fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), "utf8");
-        ' "$REAL_HOME/.pi/agent/settings.json"
-        echo "Global settings.json updated to use 'mobi-theme'."
+        if (fs.existsSync(localPath)) {
+          const local = JSON.parse(fs.readFileSync(localPath, "utf8"));
+          Object.assign(settings, local);
+        } else {
+          settings.theme = "mobi-theme";
+        }
+        fs.mkdirSync(path.dirname(globalPath), { recursive: true });
+        fs.writeFileSync(globalPath, JSON.stringify(settings, null, 2), "utf8");
+        ' "$REAL_HOME/.pi/agent/settings.json" ".pi/settings.json"
+        echo "Global settings.json updated."
         
         # Fix permissions if run via sudo
         if [ -n "$SUDO_USER" ] && [ "$SUDO_USER" != "root" ]; then

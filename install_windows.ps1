@@ -67,8 +67,9 @@ if ($LASTEXITCODE -eq 0) {
         Remove-Item -Path $tempHeader -Force
         Write-Host "Theme and extension files copied to global configuration."
         
-        # Update settings.json
+        # Copy local .pi/settings.json to global config (merge with existing)
         $settingsPath = Join-Path $piDir "settings.json"
+        $localSettingsPath = ".pi\settings.json"
         $settings = @{}
         if (Test-Path $settingsPath) {
             try {
@@ -78,7 +79,7 @@ if ($LASTEXITCODE -eq 0) {
         }
         if ($null -eq $settings) { $settings = @{} }
         
-        # Convert to hashtable to modify easily, or use PSCustomObject
+        # Convert to hashtable
         $settingsJson = @{}
         if ($settings -is [PSCustomObject]) {
             foreach ($prop in $settings.PSObject.Properties) {
@@ -88,9 +89,17 @@ if ($LASTEXITCODE -eq 0) {
             $settingsJson = $settings
         }
         
-        $settingsJson["theme"] = "mobi-theme"
+        if (Test-Path $localSettingsPath) {
+            $localJson = Get-Content -Raw -Path $localSettingsPath
+            $localSettings = ConvertFrom-Json $localJson
+            foreach ($prop in $localSettings.PSObject.Properties) {
+                $settingsJson[$prop.Name] = $prop.Value
+            }
+        } else {
+            $settingsJson["theme"] = "mobi-theme"
+        }
         $settingsJson | ConvertTo-Json | Out-File -FilePath $settingsPath -Encoding utf8 -Force
-        Write-Host "Global settings.json updated to use 'mobi-theme'."
+        Write-Host "Global settings.json updated."
     } else {
         Write-Host "Warning: Custom theme files were not found for backup." -ForegroundColor Yellow
         Write-Host "If you already have the theme installed globally, you can ignore this." -ForegroundColor Yellow
