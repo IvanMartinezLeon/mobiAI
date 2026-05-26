@@ -9,11 +9,8 @@ if ((Test-Path ".pi\themes\mobi-theme.json") -and (Test-Path ".pi\extensions\mob
     $hasBackup = $true
 }
 
-# Delete local .pi folder to prevent theme collisions
-if (Test-Path ".pi") {
-    Write-Host "Deleting local .pi directory to prevent theme collisions..." -ForegroundColor Yellow
-    Remove-Item -Path ".pi" -Recurse -Force
-}
+# Conservar la carpeta local .pi
+# (Se elimina la lógica que borraba esta carpeta para que siempre esté disponible)
 
 Write-Host "=== Installing @earendil-works/pi-coding-agent for Windows ===" -ForegroundColor Cyan
 

@@ -16,11 +16,8 @@ if [ -f ".pi/themes/mobi-theme.json" ] && [ -f ".pi/extensions/mobi-header.ts" ]
     HAS_BACKUP=true
 fi
 
-# Delete local .pi folder to prevent theme collisions
-if [ -d ".pi" ]; then
-    echo "Deleting local .pi directory to prevent theme collisions..."
-    rm -rf .pi
-fi
+# Conservar la carpeta local .pi
+# (Se elimina la lógica que borraba esta carpeta para que siempre esté disponible)
 
 # Check if Node.js is installed
 if ! command -v node &> /dev/null; then
